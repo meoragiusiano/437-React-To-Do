@@ -1,19 +1,19 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-function TodoItem({ name, isComplete }) {
+function TodoItem({ id, name, isComplete, onToggle, onDelete }) {
     return (
         <li className="flex items-center gap-3 py-2">
             <label className="flex items-center gap-2 text-lg font-medium">
                 <input
                     type="checkbox"
                     checked={isComplete}
-                    readOnly
+                    onChange={() => onToggle(id)}
                     className="w-5 h-5 accent-blue-600"
                 />
                 {name}
             </label>
-            <button>
+            <button onClick={() => onDelete(id)}>
                 <FontAwesomeIcon
                     icon={faTrash}
                     className="text-gray-400"
