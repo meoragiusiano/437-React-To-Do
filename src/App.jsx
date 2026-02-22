@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid'
 import './App.css'
 import TodoItem from './TodoItem'
 import AddTaskForm from './AddTaskForm'
+import Modal from './Modal'
 
 const INITIAL_TASK_LIST = [
     { id: "todo-0", name: "Eat", isComplete: true },
@@ -12,11 +13,13 @@ const INITIAL_TASK_LIST = [
 
 function App() {
     const [taskList, setTaskList] = useState(INITIAL_TASK_LIST);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     function addTask(name) {
         const newTask = { id: nanoid(), name: name, isComplete: false };
         const taskListClone = [...taskList, newTask];
         setTaskList(taskListClone);
+        setIsModalOpen(false);
     }
 
     function toggleTaskCompleted(id) {
@@ -37,7 +40,20 @@ function App() {
 
     return (
         <main className="m-4">
-            <AddTaskForm onNewTask={addTask} />
+            <button
+                onClick={() => setIsModalOpen(true)}
+                className="bg-blue-500 text-white font-semibold px-4 py-2 rounded hover:bg-blue-600 active:bg-blue-700"
+            >
+                New Task
+            </button>
+
+            <Modal
+                headerLabel="Add Task"
+                isOpen={isModalOpen}
+                onCloseRequested={() => setIsModalOpen(false)}
+            >
+                <AddTaskForm onNewTask={addTask} />
+            </Modal>
 
             <section className="mt-6">
                 <h1 className="text-xl font-bold">To do</h1>
